@@ -17,12 +17,7 @@ const initialState = {
   },
   isSubmitting: false,
   successMessage: '',
-  errorMessage: '',
-  response: {
-    title: '',
-    description: '',
-    image: ''
-  }
+  errorMessage: ''
 }
 
 function reducer(state, action) {
@@ -59,7 +54,6 @@ function reducer(state, action) {
       break
     case 'submitSuccess':
       newState = JSON.parse(JSON.stringify(initialState))
-      newState.response = action.value
       newState.successMessage = 'Photo successfully uploaded.'
       break
     case 'submitFailed':
@@ -76,7 +70,7 @@ function reducer(state, action) {
 
 function PhotoForm() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { form, successMessage, errorMessage, response } = state
+  const { form, successMessage, errorMessage } = state
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -91,8 +85,8 @@ function PhotoForm() {
     dispatch({ type: 'submitStart' })
     axios
       .post(`${baseURL}/photos`, formData)
-      .then(response => {
-        dispatch({ type: 'submitSuccess', value: response.data })
+      .then(() => {
+        dispatch({ type: 'submitSuccess' })
       })
       .catch((error) => {
         if ('response' in error && 'data' in error.response) {
@@ -121,7 +115,7 @@ function PhotoForm() {
   }
 
   return (
-    <div className="row">
+    <div className="row justify-content-center">
       <div className="col-md-6">
         <h4 className="text-center my-3">Upload Photo</h4>
         {successMessage && <p className="alert alert-success">{successMessage}</p>}
@@ -182,18 +176,6 @@ function PhotoForm() {
         </form>
       </div>
 
-      {response.image && (
-        <div className="col-md-6">
-          <h4 className="text-center my-3">Preview</h4>
-          <div className="card mb-5">
-            <img src={response.image} className="card-img-top" alt="" />
-            <div className="card-body">
-              <h5 className="card-title">{response.title}</h5>
-              <p className="card-text">{response.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
