@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.routers import SimpleRouter
+from app.views import PhotoViewSet
 
 
 @api_view(['GET'])
@@ -30,3 +32,7 @@ urlpatterns = [
     path('', home),
     path('admin/', admin.site.urls),
 ]
+
+router = SimpleRouter(trailing_slash=False)
+router.register('photos', PhotoViewSet)
+urlpatterns += router.urls
