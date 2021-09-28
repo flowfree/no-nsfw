@@ -18,9 +18,9 @@ def test_list_photos(client, sample_photos):
 
     assert response.status_code == 200
     r = response.json()
-    assert r[0]['id'] == sample_photos[0].id
+    assert r[2]['id'] == sample_photos[0].id
     assert r[1]['id'] == sample_photos[1].id
-    assert r[2]['id'] == sample_photos[2].id
+    assert r[0]['id'] == sample_photos[2].id
 
 
 @pytest.mark.django_db
