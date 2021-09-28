@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { act } from 'react-dom/test-utils'
 import PhotoList from './PhotoList'
 
 const baseURL = process.env.REACT_APP_API_BASE_URL
