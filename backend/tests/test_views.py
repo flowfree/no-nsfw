@@ -30,7 +30,7 @@ def test_create_new_photo(client):
     with generate_image('test.png') as fp:
         response = client.post('/photos', {
             'title': 'Test photo',
-            'tags': 'a, b, c',
+            'description': 'Test description',
             'image': SimpleUploadedFile(
                 'sample.jpg',
                 fp.read(),

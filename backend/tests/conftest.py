@@ -23,7 +23,7 @@ def sample_photos():
         with generate_image(filename) as fp:
             photo = Photo.objects.create(
                 title=f'Sample photo {filename}',
-                tags='a, b, c',
+                description='Sample description',
                 image=SimpleUploadedFile(name=filename, content=fp.read())
             )
             photos.append(photo)

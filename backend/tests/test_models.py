@@ -14,7 +14,7 @@ def test_autoremove_image():
     with generate_image('test.png') as fp:
         photo = Photo.objects.create(
             title=f'Sample photo',
-            tags='a, b, c',
+            description='Sample description',
             image=SimpleUploadedFile(name='test.png', content=fp.read())
         )
 
