@@ -1,6 +1,7 @@
 import {
   BrowserRouter as Router,
   Switch,
+  Redirect,
   Route,
   NavLink
 } from 'react-router-dom'
@@ -13,15 +14,18 @@ function App() {
       <Router>
         <ul className="nav nav-tabs my-4">
           <li className="nav-item">
-            <NavLink exact to="/" className="nav-link">Photo list</NavLink>
+            <NavLink exact to="/photos" className="nav-link">Photo list</NavLink>
           </li>
           <li className="nav-item">
-            <NavLink exact to="/new-photo" className="nav-link">Add new photo</NavLink>
+            <NavLink exact to="/photos/new" className="nav-link">Add new photo</NavLink>
           </li>
         </ul>
         <Switch>
-          <Route exact path="/" component={PhotoList} />
-          <Route path="/new-photo" component={PhotoForm} />
+          <Route exact path="/">
+            <Redirect to="/photos" />
+          </Route>
+          <Route path="/photos/new" component={PhotoForm} />
+          <Route path="/photos" component={PhotoList} />
         </Switch>
       </Router>
     </div>
