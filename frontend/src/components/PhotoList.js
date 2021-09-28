@@ -45,10 +45,10 @@ function PhotoList() {
   }, [])
 
   return (
-    <div className="row my-5 grid">
+    <div className="row mb-3 grid">
       {photos.map(photo => (
-        <div className="col-6 col-lg-3 mb-4 grid-item">
-          <PhotoListItem key={photo.id} photo={photo} />
+        <div key={photo.id} className="col-6 col-lg-3 mb-4 grid-item">
+          <PhotoListItem photo={photo} />
         </div>
       ))}
       {message && <p>{message}</p>}
