@@ -1,4 +1,5 @@
 from django.db import models
+from django.dispatch import receiver
 
 
 class Photo(models.Model):
@@ -10,3 +11,12 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(models.signals.post_delete, sender=Photo)
+def auto_delete_image_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        try:
+            instance.image.delete(save=False)
+        except Exception:
+            pass
