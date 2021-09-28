@@ -4,5 +4,5 @@ from .serializers import PhotoSerializer
 
 
 class PhotoViewSet(viewsets.ModelViewSet):
-    queryset = Photo.objects.all()
+    queryset = Photo.objects.all().order_by('-id')
     serializer_class = PhotoSerializer

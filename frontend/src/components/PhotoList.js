@@ -22,6 +22,13 @@ function PhotoList() {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    function setupMasonryLayout() {
+      new Masonry('.grid', {
+        itemSelector: '.grid-item',
+        percentPosition: true
+      })
+    }
+
     setError('')
     setMessage('Retrieving photos...')
     axios 
@@ -30,10 +37,7 @@ function PhotoList() {
         if (response.data.length) {
           setPhotos(response.data)        
           setMessage('')
-          new Masonry('.grid', {
-            itemSelector: '.grid-item',
-            percentPosition: true
-          })
+          setTimeout(setupMasonryLayout, 100)
         } else {
           setMessage('No photos found.')
         }
