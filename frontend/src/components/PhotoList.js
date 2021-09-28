@@ -24,10 +24,12 @@ function PhotoList() {
       .get(`${baseURL}/photos`)
       .then(response => {
         setPhotos(response.data)        
-        new Masonry('.grid', {
-          itemSelector: '.grid-item',
-          percentPosition: true
-        })
+        setTimeout(() => {
+          new Masonry('.grid', {
+            itemSelector: '.grid-item',
+            percentPosition: true
+          })
+        }, 100)
       })
       .catch(error => {
         console.log(error)
