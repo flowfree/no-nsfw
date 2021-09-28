@@ -6,13 +6,11 @@ const baseURL = process.env.REACT_APP_API_BASE_URL
 
 function PhotoListItem({ photo }) {
   return (
-    <div className="col-6 col-lg-3 mb-4 grid-item">
-      <div className="card">
-        <img src={photo.image} className="card-img-top" width="100%" alt="" />
-        <div className="card-body">
-          <h5 className="card-title">{photo.title}</h5>
-          <p className="card-text">{photo.description}</p>
-        </div>
+    <div className="card">
+      <img src={photo.image} className="card-img-top" width="100%" alt="" />
+      <div className="card-body">
+        <h5 className="card-title">{photo.title}</h5>
+        <p className="card-text">{photo.description}</p>
       </div>
     </div>
   )
@@ -48,7 +46,11 @@ function PhotoList() {
 
   return (
     <div className="row my-5 grid">
-      {photos.map(photo => <PhotoListItem key={photo.id} photo={photo} />)}
+      {photos.map(photo => (
+        <div className="col-6 col-lg-3 mb-4 grid-item">
+          <PhotoListItem key={photo.id} photo={photo} />
+        </div>
+      ))}
       {message && <p>{message}</p>}
       {error && <p>{error}</p>}
     </div>
