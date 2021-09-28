@@ -18,45 +18,31 @@ function PhotoListItem({ photo }) {
 
 function PhotoList() {
   const [photos, setPhotos] = useState([])
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
 
   useEffect(() => {
-    function setupMasonryLayout() {
-      new Masonry('.grid', {
-        itemSelector: '.grid-item',
-        percentPosition: true
-      })
-    }
-
-    setError('')
-    setMessage('Retrieving photos...')
     axios 
       .get(`${baseURL}/photos`)
       .then(response => {
-        if (response.data.length) {
-          setPhotos(response.data)        
-          setMessage('')
-          setTimeout(setupMasonryLayout, 100)
-        } else {
-          setMessage('No photos found.')
-        }
+        setPhotos(response.data)        
+        new Masonry('.grid', {
+          itemSelector: '.grid-item',
+          percentPosition: true
+        })
       })
       .catch(error => {
-        setError('Something went wrong.')
-        setMessage('')
+        console.log(error)
       })
   }, [])
 
   return (
     <div className="row mb-3 grid">
-      {photos.map(photo => (
+      {photos.length ? photos.map(photo => (
         <div key={photo.id} className="col-6 col-lg-3 mb-4 grid-item">
           <PhotoListItem photo={photo} />
         </div>
-      ))}
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+      )) : (
+        <p>Retrieving photos...</p>
+      )}
     </div>
   )
 }
