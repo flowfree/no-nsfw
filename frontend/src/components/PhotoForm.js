@@ -10,14 +10,14 @@ const initialState = {
     description: '',
     image: '',
     errors: {
+      non_field_errors: '',
       title: '',
       description: '',
       image: ''
     }
   },
   isSubmitting: false,
-  successMessage: '',
-  errorMessage: ''
+  successMessage: ''
 }
 
 function reducer(state, action) {
@@ -34,6 +34,9 @@ function reducer(state, action) {
     case 'form/image':
       newState.form.image = action.value
       break
+    case 'form/errors/non_field_errors':
+      newState.form.errors.non_field_errors = action.value
+      break
     case 'form/errors/title':
       newState.form.errors.title = action.value
       break
@@ -46,7 +49,6 @@ function reducer(state, action) {
     case 'submitStart':
       newState.form.errors = JSON.parse(JSON.stringify(initialState.form.errors))
       newState.successMessage = ''
-      newState.errorMessage = ''
       newState.isSubmitting = true
       break
     case 'submitEnd':
@@ -55,10 +57,6 @@ function reducer(state, action) {
     case 'submitSuccess':
       newState = JSON.parse(JSON.stringify(initialState))
       newState.successMessage = 'Photo successfully uploaded.'
-      break
-    case 'submitFailed':
-      newState.errorMessage = action.value
-      newState.successMessage = ''
       break
     case 'reset':
     default:
@@ -70,7 +68,7 @@ function reducer(state, action) {
 
 function PhotoForm() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { form, successMessage, errorMessage } = state
+  const { form, successMessage } = state
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -119,7 +117,11 @@ function PhotoForm() {
       <div className="col-md-6">
         <h4 className="text-center my-3">Upload Photo</h4>
         {successMessage && <p role="alert" className="alert alert-success">{successMessage}</p>}
-        {errorMessage && <p role="alert" className="alert alert-danger">{errorMessage}</p>}
+        {form.errors.non_field_errors && (
+          <p role="alert" className="alert alert-danger">
+            <strong>Heads up!</strong> {form.errors.non_field_errors}
+          </p>
+        )}
         <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
           <div className="row mb-3">
             <label htmlFor="title" className="col-md-2 col-form-label">Title</label>
@@ -129,7 +131,7 @@ function PhotoForm() {
                 id="title"
                 name="title" 
                 value={form.title}  
-                className={'form-control ' + (form.errors.title ? 'is-invalid' : '')}
+                className={'form-control shadow-none ' + (form.errors.title ? 'is-invalid' : '')}
                 onChange={e => setFormValue('title', e.target.value)}
               />
               <div className="invalid-feedback">{form.errors.title}</div>
@@ -143,7 +145,7 @@ function PhotoForm() {
                 name="description" 
                 rows="2"
                 value={form.description}
-                className={'form-control ' + (form.errors.description ? 'is-invalid' : '')}
+                className={'form-control shadow-none ' + (form.errors.description ? 'is-invalid' : '')}
                 onChange={e => setFormValue('description', e.target.value)}
               ></textarea>
               <div className="invalid-feedback">{form.errors.description}</div>
@@ -157,7 +159,7 @@ function PhotoForm() {
                 id="image"
                 name="image" 
                 key={form._key}
-                className={'form-control ' + (form.errors.image ? 'is-invalid' : '')}
+                className={'form-control shadow-none ' + (form.errors.image ? 'is-invalid' : '')}
                 onChange={e => setFormValue('image', e.target.files[0])}
               />
               <div className="invalid-feedback">{form.errors.image}</div>
@@ -168,12 +170,14 @@ function PhotoForm() {
               <button 
                 type="submit" 
                 className="btn btn-outline-primary shadow-none float-end"
+                disabled={state.isSubmitting}
               >
                 {state.isSubmitting ? '...Saving' : 'Save'}
               </button>
               <button 
                 className="btn btn-outline-secondary shadow-none float-end me-2"
                 onClick={handleReset}
+                disabled={state.isSubmitting}
               >
                 Reset
               </button>
