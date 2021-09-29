@@ -89,7 +89,7 @@ function PhotoForm() {
         dispatch({ type: 'submitSuccess' })
       })
       .catch((error) => {
-        if ('response' in error && 'data' in error.response) {
+        if (error.response && error.response.data) {
           const errors = error.response.data
           for (const field in errors) {
             setFormError(field, errors[field][0])
@@ -118,14 +118,15 @@ function PhotoForm() {
     <div className="row justify-content-center">
       <div className="col-md-6">
         <h4 className="text-center my-3">Upload Photo</h4>
-        {successMessage && <p className="alert alert-success">{successMessage}</p>}
-        {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
+        {successMessage && <p role="alert" className="alert alert-success">{successMessage}</p>}
+        {errorMessage && <p role="alert" className="alert alert-danger">{errorMessage}</p>}
         <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
           <div className="row mb-3">
             <label htmlFor="title" className="col-md-2 col-form-label">Title</label>
             <div className="col-md-10">
               <input 
                 type="text" 
+                id="title"
                 name="title" 
                 value={form.title}  
                 className={'form-control ' + (form.errors.title ? 'is-invalid' : '')}
@@ -138,6 +139,7 @@ function PhotoForm() {
             <label htmlFor="description" className="col-md-2 col-form-label">Description</label>
             <div className="col-md-10">
               <textarea 
+                id="description"
                 name="description" 
                 rows="2"
                 value={form.description}
@@ -152,6 +154,7 @@ function PhotoForm() {
             <div className="col-md-10">
               <input 
                 type="file" 
+                id="image"
                 name="image" 
                 key={form._key}
                 className={'form-control ' + (form.errors.image ? 'is-invalid' : '')}
