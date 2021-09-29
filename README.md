@@ -1,5 +1,5 @@
-NSFW Filterer
-=============
+No NSFW 
+=======
 Sample photos app that auto-detect NSFW images. The NSFW classifier is using the model provided 
 by <a href="https://github.com/GantMan"><strong>@GantMan</strong></a> in this repository: 
 https://github.com/GantMan/nsfw_model
