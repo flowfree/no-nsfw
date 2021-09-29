@@ -32,7 +32,7 @@ def test_create_new_photo(client):
             'title': 'Test photo',
             'description': 'Test description',
             'image': SimpleUploadedFile(
-                'sample.jpg',
+                'sample.png',
                 fp.read(),
                 content_type='image/png'
             )
@@ -42,6 +42,28 @@ def test_create_new_photo(client):
     assert Photo.objects.count() == numrows+1
 
     Photo.objects.last().delete()
+
+
+@pytest.mark.django_db
+def test_create_new_photo_with_invalid_image(client):
+    numrows = Photo.objects.count()
+
+    with open(__file__, 'rb') as fp:
+        response = client.post('/photos', {
+            'title': 'aaa',
+            'description': 'bbb',
+            'image': SimpleUploadedFile(
+                'sample.jpg',
+                fp.read(),
+                content_type='image/jpeg'
+            )
+        })
+
+    assert response.status_code == 400
+    assert response.json() == {
+        'image': ['Upload a valid image. The file you uploaded was ' \
+                  'either not an image or a corrupted image.']
+    }
 
 
 @pytest.mark.django_db
