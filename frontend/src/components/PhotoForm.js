@@ -165,11 +165,14 @@ function PhotoForm() {
           </div>
           <div className="row">
             <div className="col-md-12">
-              <button type="submit" className="btn btn-outline-primary float-end">
+              <button 
+                type="submit" 
+                className="btn btn-outline-primary shadow-none float-end"
+              >
                 {state.isSubmitting ? '...Saving' : 'Save'}
               </button>
               <button 
-                className="btn btn-outline-secondary float-end me-2"
+                className="btn btn-outline-secondary shadow-none float-end me-2"
                 onClick={handleReset}
               >
                 Reset
