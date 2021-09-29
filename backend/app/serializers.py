@@ -19,8 +19,9 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         fp = data['image']
-        arr = np.fromstring(fp.read(), np.uint8)
+        arr = np.fromstring(fp.read(), dtype='uint8')
         img = cv2.imdecode(arr, cv2.IMREAD_UNCHANGED)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         height, width, _ = img.shape
         if height >= 100 and width >= 100:
             img = cv2.resize(img, (224, 224))
