@@ -1,4 +1,7 @@
+import os 
+
 import pytest
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from app.models import Photo
@@ -72,3 +75,25 @@ def test_delete_photo(client, sample_photos):
 
     assert response.status_code == 204
     assert Photo.objects.count() == len(sample_photos)-1
+
+
+@pytest.mark.django_db
+def test_detect_nsfw_uploads(client):
+    sample_image = settings.BASE_DIR / 'tests/images/sample-porn.jpg'
+    if not os.path.isfile(sample_image):
+        assert 1
+        return
+
+    with open(sample_image, 'rb') as fp:
+        response = client.post('/photos', {
+            'title': 'aaa',
+            'description': 'bbb',
+            'image': SimpleUploadedFile(
+                'sample.jpg',
+                fp.read(),
+                content_type='image/jpeg'
+            )
+        })
+
+    assert response.status_code == 400
+    assert response.json() == {'non_field_errors': ['NSFW images are not allowed.']}
