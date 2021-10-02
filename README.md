@@ -17,15 +17,19 @@ Ensure that you have Python 3.8+, Pipenv, and recent Node.js installed on your l
         cd backend
         pipenv install --dev
 
-2.  Run the development server:
+1.  Run database migration:
+
+        pipenv run python manage.py migrate
+
+1.  Run the development server:
 
         pipenv run python manage.py runserver
 
     It will run Django's development server on port 8000.
         
-3.  Open `http://localhost:8000` with your browser to see the welcome message.
+1.  Open `http://localhost:8000` with your browser to see the welcome message.
 
-4.  (Optional) run the unit tests:
+1.  (Optional) run the unit tests:
 
         pipenv run pytest
 
@@ -36,13 +40,13 @@ Ensure that you have Python 3.8+, Pipenv, and recent Node.js installed on your l
         cd frontend
         yarn install
 
-2.  Run the server:
+1.  Run the server:
 
         yarn start
 
-3.  Open `http://localhost:3000` with your browser to see the frontend app.
+1.  Open `http://localhost:3000` with your browser to see the frontend app.
 
-4.  (Optional) run the unit tests:
+1.  (Optional) run the unit tests:
 
         yarn test
 
