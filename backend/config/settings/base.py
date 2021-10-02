@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -101,4 +102,13 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
 ]
+
+if os.getenv('FRONTEND_URL'):
+    CORS_ALLOWED_ORIGINS += [os.getenv('FRONTEND_URL')]
+
+if os.getenv('FRONTEND_HOSTNAME'):
+    CORS_ALLOWED_ORIGINS += [
+        'http://' + os.getenv('FRONTEND_HOSTNAME'),
+        'https://' + os.getenv('FRONTEND_HOSTNAME'),
+    ]
 

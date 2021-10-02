@@ -46,6 +46,30 @@ Ensure that you have Python 3.8+, Pipenv, and recent Node.js installed on your l
 
         yarn test
 
+Run the app on local machine with Docker
+----------------------------------------
+
+Ensure that you have Docker and Docker Compose installed on your machine. Build and 
+run the containers with:
+
+    docker-compose build
+    docker-compose up
+
+Then open `http://localhost:3000` with your browser to see the frontend app.
+
+If you want to run on machine other than localhost (e.g: EC2 instance), you need to 
+set the `FRONTEND_URL` and `BACKEND_URL` environment variables so both frontend and 
+backend know how to talk to each other.
+
+For example, if the public IP address of your EC2 instance is `1.2.3.4` then you need 
+to run the app with:
+
+    export FRONTEND_URL=http://1.2.3.4:3000 
+    export BACKEND_URL=http://1.2.3.4:8000 
+    docker-compose build
+    docker-compose up
+
+The app will be available at `http://1.2.3.4:3000`.
 
 License
 -------

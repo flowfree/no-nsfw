@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 from .base import *
 
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -6,9 +7,12 @@ DEBUG = False
 
 # Warning: you need to set the hostname of the backend app
 # or it will allow every hostname
-if 'BACKEND_HOSTNAME' in os.environ:
+if os.getenv('BACKEND_URL'):
+    o = urlparse(os.getenv('BACKEND_URL'))
+    ALLOWED_HOSTS = [o.netloc]
+elif os.getenv('BACKEND_HOSTNAME'):
     ALLOWED_HOSTS = [os.getenv('BACKEND_HOSTNAME')]
-elif 'API_HOSTNAME' in os.environ:
+elif os.getenv('API_HOSTNAME'):
     ALLOWED_HOSTS = [os.getenv('API_HOSTNAME')]
 else:
     ALLOWED_HOSTS = ['*']

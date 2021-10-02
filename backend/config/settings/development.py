@@ -1,9 +1,15 @@
 import os
+from urllib.parse import urlparse
 from .base import *
 
 SECRET_KEY = '0123456789abcdef'
 DEBUG = True
-ALLOWED_HOSTS = []
+
+if os.getenv('BACKEND_URL'):
+    o = urlparse(os.getenv('BACKEND_URL'))
+    ALLOWED_HOSTS = [o.netloc]
+else:
+    ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
